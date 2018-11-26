@@ -19,14 +19,19 @@
       constructor (props = {}) {
         this.props = props
       }
-
+      /* 1. 更新 state
+         2. 更新 UI
+         3. 重新渲染 
+      */
       setState (state) {
         const oldEl = this.el
         this.state = state
         this.el = this.renderDOM()
         if (this.onStateChange) this.onStateChange(oldEl, this.el)
       }
-
+      /*
+        将 render 中的字符串转为 html 并添加事件, 然后返回
+      */
       renderDOM () {
         this.el = createDOMFromString(this.render())
         if (this.onClick) {
@@ -35,13 +40,13 @@
         return this.el
       }
     }
-
+    // 将字符串转为 html 格式
     const createDOMFromString = (domString) => {
       const div = document.createElement('div')
       div.innerHTML = domString
       return div
     }
-
+    // 挂载
     const mount = (component, wrapper) => {
       wrapper.appendChild(component.renderDOM())
       component.onStateChange = (oldEl, newEl) => {
